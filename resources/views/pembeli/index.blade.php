@@ -10,7 +10,7 @@
         <div class="card-title">
             <h5>Data Pembeli</h5>
 
-            <button type="button" class="btn btn-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#modaltambah"><i class="fa fa-plus"></i></button>
+            <a class="btn btn-success btn-sm float-end" href="{{ route ('pembeli.create')}}"><i class="fa fa-plus"></i></a>
         </div>
     </div>
 
@@ -24,16 +24,18 @@
                 <th style="width: 10%">Aksi</th>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Ali</td>
-                <td>08080808080</td>
-                <td>Perempatan</td>
+           @foreach($pembeli as $item)
+           <tr>
+                <td>{{$loop->iteration}}</td>
+                <td>{{$item->nama}}</td>
+                <td>{{$item->telepon}}</td>
+                <td>{{$item->alamat}}</td>
                 <td>
-                    <a href="#" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash"></i></a>
+                    <a href="/pembeli/{{$item->id}}/edit" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></a>
+                    <a href="/pembeli/{{$item->id}}/hapus" class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
+           @endforeach
         </tbody>
     </table>
 </div>

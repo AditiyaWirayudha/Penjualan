@@ -9,7 +9,7 @@
     <div class="card-header">
         <div class="card-title">
             <h5>Data Pembelian</h5>
-            <button type="button" class="btn btn-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#modaltambah"><i class="fa fa-plus"></i></button>
+            <a class="btn btn-success btn-sm float-end" href="{{ route ('pembelian.create')}}"><i class="fa fa-plus"></i></a>
         </div>
     </div>
 
@@ -17,24 +17,24 @@
         <thead>
             <tr>
                 <th style="width: 5%">No.</th>
-                <th>Tanggal</th>
                 <th style="width: 30%">Jumlah</th>
                 <th>Harga</th>
                 <th>Barang_id</th>
                 <th style="width: 10%">aksi</th>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>11 Agustus 2022</td>
-                <td>5</td>
-                <td>8.000.000</td>
-                <td>001</td>
+           @foreach($pembelian as $item)
+           <tr>
+                <td>{{$loop->iteration}}</td>
+                <td>{{$item->jumlah}}</td>
+                <td>{{$item->harga}}</td>
+                <td>{{$item->barang_id}}</td>
                 <td>
-                    <a href="#" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash"></i></a>
+                    <a href="/pembelian/{{$item->id}}/edit" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></a>
+                    <a href="/pembelian/{{$item->id}}/hapus" class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
+           @endforeach
         </tbody>
     </table>
 </div>

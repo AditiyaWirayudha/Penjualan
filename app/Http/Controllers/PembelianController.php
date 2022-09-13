@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Pembelian;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class PembelianController extends Controller
      */
     public function index()
     {
-        //
+        $pembelian = Pembelian::all();
+        return view('pembelian.index', compact('pembelian'));
     }
 
     /**
@@ -24,7 +26,9 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        //
+        $barang = Barang::all();
+        return view('pembelian.add', compact('barang',));
+
     }
 
     /**
@@ -35,16 +39,23 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required|max:255',
+            'harga' => 'required|numeric',
+            'jumlah' => 'required|numeric|min:1',
+            'barang_id' => 'required',
+        ]);
+        $pembelian = Pembelian::create($request->all());
+        return redirect('pembelian');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pembelian  $pembelian
+     * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function show(Pembelian $pembelian)
+    public function show(Barang $barang)
     {
         //
     }
@@ -52,34 +63,53 @@ class PembelianController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pembelian  $pembelian
+     * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pembelian $pembelian)
+    public function edit($id)
     {
-        //
+        $barang = Barang::all();
+        $pm = Pembelian::find($id);
+        return view ("pembelian.edit", compact('pm'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pembelian  $pembelian
+     * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pembelian $pembelian)
+    public function update(Request $request, Barang $barang)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required|max:255',
+            'harga' => 'required|numeric',
+            'jumlah' => 'required|numeric|min:1',
+            'barang_id' => 'required',
+        ]);
+
+        $pembelian->update([
+            'nama' => $request->nama,
+            'harga' => $request->harga,
+            'jumlah' => $request->jumlah,
+            'barang_id' => $request->barang_id,
+        ]);
+        
+        return redirect('pembelian');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pembelian  $pembelian
+     * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pembelian $pembelian)
+    public function destroy($id)
     {
-        //
+        $pembelian = Pembelian::find($id);
+        $pembelian->delete();
+
+        return redirect('pembelian');
     }
 }
